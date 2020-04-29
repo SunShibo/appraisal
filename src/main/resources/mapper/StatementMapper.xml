@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.StatementDao">
+
+    <select id="getStatementCount" resultType="java.lang.Integer">
+        select id from `ap_statistical` where create_time=#{date}
+    </select>
+
+    <insert id="addStatementCount" parameterType="com.wisewin.api.entity.bo.StatementBO">
+        insert into ap_statistical
+        <set>
+            <if test="activeSum!=null and activeSum!=''">
+                active_count=active_count+#{activeSum},
+            </if>
+            <if test="registrationSum!=null and registrationSum!=''">
+                registration_count=registration_count+#{registrationSum},
+            </if>
+            create_time=now()
+        </set>
+    </insert>
+
+    <update id="updStatementCount" parameterType="com.wisewin.api.entity.bo.StatementBO">
+        update ap_statistical
+        <set>
+            <if test="activeSum!=null and activeSum!=''">
+                active_count=active_count+#{activeSum},
+            </if>
+            <if test="registrationSum!=null and registrationSum!=''">
+                registration_count=registration_count+#{registrationSum},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

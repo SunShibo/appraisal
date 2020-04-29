@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.CommentDao">
+
+
+    <insert id="inertComment" parameterType="com.wisewin.api.entity.param.CommentParam">
+      INSERT INTO appraisal.ap_comment (
+          appraisal_id,
+          user_id,
+          cn_comment,
+          goods_state,
+          judge,
+          cm_show,
+          create_time,
+          update_time
+        )
+        VALUES
+          (
+            #{appraisalId},
+            #{userId},
+            #{cnComment},
+            'no',
+            #{judge},
+            'yes',
+            now(),
+            now()
+          ) ;
+  </insert>
+
+    <select id="queryComment" resultType="com.wisewin.api.entity.bo.CommentBO">
+        SELECT * FROM ap_comment WHERE appraisal_id = #{appraisalId} and id = #{commentId}
+        and cm_show = 'yes'
+    </select>
+
+    <select id="queryCommentByAppraisalId" resultType="com.wisewin.api.entity.bo.CommentBO">
+        SELECT * FROM ap_comment where  appraisal_id = #{appraisalId}
+        AND cm_show = 'yes'
+        AND goods_state = 'yes'
+    </select>
+
+    <update id="updateComment">
+        UPDATE
+          appraisal.ap_comment
+        SET
+          goods_state = 'yes',
+          update_time = now()
+        WHERE id = #{commentId} ;
+    </update>
+
+    <select id="getCommentByAppraisalId" resultType="com.wisewin.api.entity.bo.CommentBO">
+        SELECT u.name,u.head_url,u.integral,cn_comment,goods_state,judge  FROM `ap_comment` AS c ,`ap_user` AS u,`ap_appraisal` AS a
+        WHERE u.`id`=c.user_id
+        AND c.appraisal_id=a.id
+        AND cm_show='yes'
+        AND appraisal_id=#{id}
+        AND (c.user_id=#{userId} or a.user_id=#{userId} or goods_state='yes')
+        LIMIT  #{pageOffset},#{pageSize}
+    </select>
+
+    <select id="queryCommentById" resultType="com.wisewin.api.entity.bo.CommentBO">
+        SELECT * FROM ap_comment WHERE id = #{id} and cm_show = 'yes'
+    </select>
+
+
+    <delete id="deleteComment">
+        DELETE
+        FROM
+          appraisal.ap_comment
+        WHERE id = #{commentId} ;
+    </delete>
+
+</mapper>
+

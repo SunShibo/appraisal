@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.WithdrawDAO">
+
+    <insert id="insertWithdraw">
+      INSERT INTO appraisal.ap_withdraw (
+      user_id,
+      phone_type,
+      account_type,
+      account,
+      `type`,
+      money,
+      create_time,
+      order_number
+        )
+    VALUES
+      (
+        #{userId},
+        #{phoneType},
+        #{accountType},
+        #{account},
+        #{type},
+        #{money},
+       NOW(),
+       #{orderNumber}
+      ) ;
+    </insert>
+
+
+    <select id="listWithdraw" resultType="com.wisewin.api.entity.bo.WithdrawBO">
+        SELECT id, user_id, account_type,
+        `type`, money, api_msg, create_time
+        FROM ap_withdraw
+        WHERE user_id = #{userId}
+        ORDER BY create_time desc
+
+    </select>
+
+</mapper>

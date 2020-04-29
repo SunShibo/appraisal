@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wisewin.api.dao.AppraisalDao" >
+  <resultMap id="BaseResultMap" type="com.wisewin.api.entity.bo.AppraisalBo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="appraisal_type_id" property="appraisalTypeId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="appraisal_state" property="appraisalState" jdbcType="VARCHAR" />
+    <result column="browse" property="browse" jdbcType="INTEGER" />
+    <result column="ap_case" property="apCase" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wisewin.api.entity.bo.AppraisalBo" extends="BaseResultMap" >
+    <result column="describc" property="describc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, appraisal_type_id, title, appraisal_state, browse, ap_case, create_time, 
+    update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    describc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ap_appraisal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ap_appraisal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wisewin.api.entity.bo.AppraisalBo" >
+    insert into ap_appraisal (id, user_id, appraisal_type_id, 
+      title, appraisal_state, browse, 
+      ap_case, create_time, update_time, 
+      describc)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{appraisalTypeId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{appraisalState,jdbcType=VARCHAR}, #{browse,jdbcType=INTEGER}, 
+      #{apCase,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{describc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wisewin.api.entity.bo.AppraisalBo" >
+    insert into ap_appraisal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="appraisalTypeId != null" >
+        appraisal_type_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="appraisalState != null" >
+        appraisal_state,
+      </if>
+      <if test="browse != null" >
+        browse,
+      </if>
+      <if test="apCase != null" >
+        ap_case,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="describc != null" >
+        describc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="appraisalTypeId != null" >
+        #{appraisalTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalState != null" >
+        #{appraisalState,jdbcType=VARCHAR},
+      </if>
+      <if test="browse != null" >
+        #{browse,jdbcType=INTEGER},
+      </if>
+      <if test="apCase != null" >
+        #{apCase,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describc != null" >
+        #{describc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wisewin.api.entity.bo.AppraisalBo" >
+    update ap_appraisal
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="appraisalTypeId != null" >
+        appraisal_type_id = #{appraisalTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalState != null" >
+        appraisal_state = #{appraisalState,jdbcType=VARCHAR},
+      </if>
+      <if test="browse != null" >
+        browse = #{browse,jdbcType=INTEGER},
+      </if>
+      <if test="apCase != null" >
+        ap_case = #{apCase,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describc != null" >
+        describc = #{describc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wisewin.api.entity.bo.AppraisalBo" >
+    update ap_appraisal
+    set user_id = #{userId,jdbcType=INTEGER},
+      appraisal_type_id = #{appraisalTypeId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      appraisal_state = #{appraisalState,jdbcType=VARCHAR},
+      browse = #{browse,jdbcType=INTEGER},
+      ap_case = #{apCase,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      describc = #{describc,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wisewin.api.entity.bo.AppraisalBo" >
+    update ap_appraisal
+    set user_id = #{userId,jdbcType=INTEGER},
+      appraisal_type_id = #{appraisalTypeId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      appraisal_state = #{appraisalState,jdbcType=VARCHAR},
+      browse = #{browse,jdbcType=INTEGER},
+      ap_case = #{apCase,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertAppraisal" parameterType="com.wisewin.api.entity.param.AppraisalParam"
+  useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO appraisal.ap_appraisal (
+        user_id,
+        appraisal_type_id,
+        title,
+        describc,
+        browse,
+        ap_case,
+        ap_images,
+        create_time,
+        update_time
+       )
+       VALUES
+        (
+          #{userId},
+          #{appraisalTypeId},
+          #{title},
+          #{describc},
+          0,
+          'no',
+          #{apImages},
+          now(),
+          now()
+        ) ;
+      </insert>
+
+
+  <insert id="insertAppraisalImages" >
+    INSERT INTO appraisal.ap_appraisal_images (
+      appraisal_id,
+      image_url,
+      sort,
+      create_time,
+      update_time
+    )
+    VALUES
+    <foreach item="item" collection="array" open="(" separator="," close=")">
+      (
+      #{appraisalId},
+      #{imageUrl},
+      #{sort},
+      now(),
+      now()
+      )
+    </foreach>
+  </insert>
+
+<!--鉴定列表-->
+  <select id="appraisalList" parameterType="java.util.Map" resultType="com.wisewin.api.entity.dto.AppraisalDTO">
+  SELECT  ap_appraisal.*,ap_appraisal_type_info.name AS appraisalTypeName
+  FROM ap_appraisal,ap_appraisal_type_info
+  WHERE ap_appraisal_type_info.id = ap_appraisal.appraisal_type_id
+  <if test="appraisalTypeId != null and appraisalTypeId != ''">
+    AND ap_appraisal.appraisal_type_id = #{appraisalTypeId}
+  </if>
+  <if test="appraisalState != null and appraisalState != ''">
+    AND ap_appraisal.appraisal_state = #{appraisalState}
+  </if>
+  <if test="title != null and title != ''">
+    AND ap_appraisal.title LIKE CONCAT('%',#{title},'%')
+  </if>
+  AND ap_appraisal.status = 'yes'
+  order by ap_appraisal.create_time desc
+    <include refid="limit" />
+  </select>
+
+  <sql id="limit">
+        limit #{pageOffset},#{pageSize}
+    </sql>
+
+  <select id="appraisalCount" parameterType="java.util.Map"  resultType="int">
+    SELECT  count(1)
+    FROM ap_appraisal,ap_appraisal_type_info
+    WHERE ap_appraisal_type_info.id = ap_appraisal.appraisal_type_id
+    <if test="appraisalTypeId != null and appraisalTypeId != ''">
+      AND ap_appraisal.appraisal_type_id = #{appraisalTypeId}
+    </if>
+    <if test="appraisalState != null and appraisalState != ''">
+      AND ap_appraisal.appraisal_state = #{appraisalState}
+    </if>
+    <if test="title != null and title != ''">
+      AND ap_appraisal.title LIKE CONCAT('%',#{title},'%')
+    </if>
+    AND ap_appraisal.status = 'yes'
+  </select>
+
+
+  <select id="queryApprausalById" resultType="com.wisewin.api.entity.bo.AppraisalBo">
+  SELECT ap_appraisal.*,ap_appraisal_type_info.name as appraisalTypeName,ap_user.name AS userName,ap_user.head_url
+   FROM ap_appraisal,ap_appraisal_type_info,ap_user where ap_appraisal.status = 'yes'
+  and ap_appraisal_type_info.id = ap_appraisal.appraisal_type_id AND ap_user.id = ap_appraisal.user_id
+  AND ap_appraisal.id = #{appraisalId}
+  </select>
+
+  <update id="updateAppraisalState" >
+    UPDATE
+      appraisal.ap_appraisal
+    SET
+      appraisal_state = #{appraisalState},
+      update_time = NOW()
+    WHERE id = #{appraisalId} ;
+
+  </update>
+
+  <select id="getUserById" resultType="com.wisewin.api.entity.bo.UserBO">
+    SELECT *
+    FROM
+      appraisal.ap_user
+    WHERE id = #{id}
+  </select>
+
+
+  <select id="isAppraisal" resultType="com.wisewin.api.entity.bo.AppraisalBo">
+    SELECT * FROM ap_appraisal
+    WHERE id = #{id} and user_id = #{userId}
+  </select>
+
+  <resultMap id="commentMap" type="com.wisewin.api.entity.bo.CommentBO">
+    <id column="id" property="id"/>
+    <result column="user_id" property="userId"/>
+    <association property="integral" column="user_id" select="queryIntegral"/>
+  </resultMap>
+
+  <select id="queryComment" resultType="com.wisewin.api.entity.bo.CommentBO">
+  SELECT ap_user.head_url, ap_user.name,ap_comment.*,ap_user.integral as integral
+  FROM ap_comment, ap_user
+  WHERE ap_comment.user_id = ap_user.id
+  AND ap_comment.cm_show = 'yes'
+  AND ap_comment.appraisal_id = #{appraisalId}
+    <if test="userId != null and userId != ''">
+      and ap_comment.user_id = #{userId}
+    </if>
+    <if test="pageOffset != null and pageOffset != ''">
+      <include refid="limit" />
+    </if>
+
+  </select>
+
+  <select id="queryIntegral"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM ap_comment
+    WHERE user_id = #{integral}
+    AND goods_state = 'yes'
+    AND cm_show = 'yes'
+  </select>
+
+<select id="goodsStateComment" resultMap="commentMap">
+  SELECT ap_user.head_url, ap_user.name,ap_comment.*
+  FROM ap_comment, ap_user
+  WHERE ap_comment.user_id = ap_user.id
+  AND ap_comment.cm_show = 'yes'
+  AND ap_comment.appraisal_id = #{appraisalId}
+  and ap_comment.goods_state = 'yes'
+  <include refid="limit" />
+</select>
+
+
+  <select id="listAppraisalByUserId" resultType="com.wisewin.api.entity.bo.AppraisalBo">
+  SELECT ap_appraisal.*,ap_appraisal_type_info.name AS appraisalTypeName
+    FROM ap_appraisal,ap_appraisal_type_info WHERE `status` = 'yes'
+    AND ap_appraisal_type_info.id = ap_appraisal.appraisal_type_id
+    AND ap_appraisal.user_id = #{userId} ORDER BY ap_appraisal.create_time DESC
+  </select>
+
+
+  <select id="queryAppraisalIdByComment" resultType="java.lang.Integer">
+    SELECT appraisal_id FROM ap_comment WHERE user_id = #{userId} and cm_show = 'yes'
+  </select>
+
+
+  <select id="selectAppraisalOnId" resultType="com.wisewin.api.entity.bo.AppraisalBo">
+    SELECT ap_appraisal.*,ap_appraisal_type_info.name as appraisalTypeName
+    FROM ap_appraisal,ap_appraisal_type_info where `status` = 'yes'
+    and ap_appraisal_type_info.id = ap_appraisal.appraisal_type_id
+    AND ap_appraisal.id in
+    (
+     <foreach collection ="list" item="cer" separator =",">
+       #{cer}
+     </foreach>
+    )
+    order by create_time desc
+  </select>
+
+
+
+  <update id="updateAppraisalReisedState">
+        UPDATE
+          appraisal.ap_appraisal
+        SET
+          reised_state = #{reisedState}
+        WHERE id = #{id} ;
+    </update>
+</mapper>

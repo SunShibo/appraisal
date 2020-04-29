@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>APP下载</title>
+		<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+		<meta content="telephone=no" name="format-detection">
+		<meta name="applicable-device" content="mobile">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no">
+		<link rel="stylesheet" href="./css/m_style.css">
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+		<style>
+			.hide-mongolia {
+				display: none;
+			}
+			
+			.mongolia {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				z-index: 999;
+				display: block;
+				height: 100vh;
+				background: #000;
+				opacity: 0.6;
+			}
+			
+			.wx-download-tip {
+				font-size: 1.3rem;
+				width: 24.4rem;
+				text-align: center;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 100px;
+				margin: auto;
+			}
+			
+			.swiper-container {
+				width: 100%;
+				height: 100vw;
+			}
+			
+			.bgM {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 1000;
+				background-color: rgba(0, 0, 0, 0.85);
+				overflow: hidden;
+			}
+			
+			.bgM img {
+				width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 1001;
+				margin: auto;
+			}
+			
+			.head-div {
+				display: flex;
+				/*justify-content: space-between;*/
+				height: 5rem;
+				/*width: 100%;*/
+				padding: 10px;
+				align-items: center;
+				align-content: center;
+			}
+			
+			.head-div img {
+				width: 3.5rem;
+				height: 3.5rem;
+				margin-right: 20px;
+				border-radius: 1.75rem;
+			}
+			
+			.head-p-1 {
+				font-size: 1.2rem;
+				color: #333;
+				font-weight: bold;
+			}
+			
+			.head-p-2 {
+				font-size: 0.8rem;
+				color: #666;
+			}
+			
+			.goBtn {
+				/*background-color: rgb(26 38 57);*/
+				background: #1A2639;
+				width: 90vw;
+				margin: 10px auto;
+				text-align: center;
+				line-height: 4rem;
+				color: #fff;
+				border: none;
+				font-size: 1.2rem;
+			}
+			
+			.icon-list {
+				position: relative;
+				width: 100vw;
+				height: 4rem;
+				margin-bottom: 40px;
+			}
+			
+			.icon-list img {
+				border: 2px solid #fff;
+				width: 3.5rem;
+				height: 3.5rem;
+				border-radius: 1.75rem;
+			}
+			.icon-list .p-img-last{
+				border: 0px solid #fff;
+			}
+			.title {
+				font-size: 1.5rem;
+				color: #000000;
+				font-weight: bold;
+				padding-left: 10px;
+				margin-top: 20px;
+			}
+			
+			.time {
+				color: #999;
+				font-size: 0.8rem;
+				padding-left: 10px;
+				line-height: 2rem;
+			}
+			
+			.content {
+				padding-left: 10px;
+				color: #999;
+				font-size: 1.1rem;
+				letter-spacing: 1px;
+			}
+			
+			.pinlun {
+				font-size: 1.2rem;
+				color: #333;
+				font-weight: bold;
+				padding-left: 10px;
+				margin-top: 20px;
+				margin-bottom: 5px;
+			}
+			
+			.p-img0 {
+				position: absolute;
+				left: 1rem;
+			}
+			
+			.p-img1 {
+				position: absolute;
+				left: 3.5rem;
+			}
+			
+			.p-img2 {
+				position: absolute;
+				left: 6rem;
+			}
+			
+			.p-img3 {
+				position: absolute;
+				left: 8.5rem;
+			}
+			
+			.p-img4 {
+				position: absolute;
+				left: 11rem;
+			}
+			
+			.p-img5 {
+				position: absolute;
+				left: 13.5rem;
+			}
+			
+			.p-img6 {
+				position: absolute;
+				left: 16rem;
+			}
+			.preview{
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="page">
+			<div class="head-div">
+				<img src="" id="headUrl" alt="" />
+				<div class="head-right">
+					<p class="head-p-1" id="head"></p>
+					<p class="head-p-2" id="time1"></p>
+				</div>
+			</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper" id="images">
+					<!--<div class="swiper-slide"><img class="preview" src="image/bg_1.png" alt="" /></div>
+					<div class="swiper-slide"><img class="preview" src="image/bg_2.png" /></div>
+					<div class="swiper-slide"><img class="preview" src="image/default.jpg" /></div>-->
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+
+			<p class="title" id="title"></p>
+			<p class="time" id="time2"></p>
+			<p class="content" id="describc"></p>
+			<p class="pinlun">评论</p>
+			<div class="icon-list" id="imgs">
+				
+			</div>
+			<div class="btn-box success-btn">
+				<button class="goBtn" id="download">打开app去鉴定</button>
+			</div>
+			<div id="md" class="hide-mongolia">
+				<div class="wx-download-tip" style="color:#ffffff;">请点击右上角按钮 <img src="/image/icon.png" alt="" width="32px" height="32px"> 在浏览器打开</div>
+			</div>
+		</div>
+
+		<script src="./js/jquery-3.4.1.min.js"></script>
+		<script src="./js/register.js?=1hj2j34"></script>
+		<script src="./js/swiper.min.js"></script>
+
+		<script>
+			function getQueryString(name) {
+				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) {
+					return unescape(r[2]);
+				}
+				return null;
+			}
+			//http://39.106.54.2:8080/appraisal/share?appraisalId=1&state=yess
+			//http://39.106.54.2:8080/appraisal/share?appraisalId=
+			$(function() {
+				var appraisalId = getQueryString("appraisalId")||1;			
+				var state = getQueryString("state")||'yes';
+
+				$.getJSON("/appraisal/share?appraisalId="
+				+appraisalId +"&state="+state,function(rs){
+					console.log(rs);
+					if(rs.code!="0000000"){return;}
+					var d = rs.data;
+					$("#head").text(d.head);
+					var imgs = d.url;
+					var images = d.images;
+					if(imgs.length>0){
+						var imgsStr = '';
+						for(var i=0;i<imgs.length;i++){
+							if(i==5)break;
+							imgsStr += '<img class="p-img'+i+'" src="'+imgs[i]+'" alt="" />'
+						}
+						imgsStr += '<img class="p-img-last p-img'+imgs.length+'" src="image/icon2.png" alt="" />';
+						$("#imgs").append(imgsStr);
+					}
+					if(images.length>0){
+						var imagesStr = '';
+						for(var i=0;i<images.length;i++){
+							imagesStr += '<div class="swiper-slide"><img class="preview" src="'+images[i]+'" /></div>'
+						}
+						$("#images").append(imagesStr);
+					}
+					$("#time1").text(d.appraisal.createTime)
+					$("#describc").text(d.appraisal.describc)
+					$("#title").text(d.appraisal.title)					
+					$("#time2").text(d.appraisal.createTime.split(" ")[0])
+					$("#headUrl").attr('src',d.appraisal.headUrl)
+					
+					
+					var mySwiper = new Swiper('.swiper-container', {
+//					loop: true, // 循环模式选项
+
+					// 如果需要分页器
+					pagination: {
+						el: '.swiper-pagination',
+					},
+
+					// 如果需要滚动条
+//					scrollbar: {
+//						el: '.swiper-scrollbar',
+//					}
+				})
+				})
+				
+				
+
+				//点击图片进入预览
+
+				$(document).on("click", ".preview", function() {
+
+					var temp = this.src;
+					var objE = document.createElement("div");
+					objE.innerHTML = '<div class="bgM" >' +
+						'<img src="' + temp + '"  id="img_scan" class="img-custom-img2"/>' +
+						'</div>';
+					document.body.appendChild(objE.children[0]);
+					//退出图片预览事件
+					var $bg = document.querySelector(".bgM");
+					$bg.onclick = function() {
+						var dm = document.querySelector(".bgM");
+						document.body.removeChild(dm);
+					}
+					//阻止事件冒泡
+					var $img = document.querySelector(".img-custom-img2");
+					$img.onclick = function(event) {
+						event.stopPropagation();
+					}
+				})
+			});
+		</script>
+	</body>
+
+</html>

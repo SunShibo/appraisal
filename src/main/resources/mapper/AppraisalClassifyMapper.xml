@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.AppraisalClassifyDao">
+
+    <resultMap id="appraisalMap" type="com.wisewin.api.entity.bo.AppraisalClassify">
+        <id property="id" column="id"/>
+        <result column="type_name" property="typeName"/>
+        <collection ofType="com.wisewin.api.entity.bo.AppraisalClassifyInfo"
+                    property="appraisalClassifyInfos"
+                    column="id"
+                    select="selectAppraisalInfo"/>
+    </resultMap>
+
+ <!--   <resultMap id="appraisalInfo" type="com.wisewin.api.entity.bo.AppraisalClassifyInfo">
+        <result column="id"  property="id"/>
+        <result column="name"  property="name"/>
+        <result column="picture_url"  property="pictureUrl"/>
+        <result column="type_id"  property="typeId"/>
+    </resultMap>-->
+
+    <select id="selectAppraisalInfo" resultType="com.wisewin.api.entity.bo.AppraisalClassifyInfo" parameterType="Integer">
+        SELECT id,`name`,
+        type_id, picture_url
+        FROM ap_appraisal_type_info
+        WHERE ap_show = 'yes' and type_id = #{id}
+        ORDER BY  sort DESC
+    </select>
+
+    <select id="selectAppraisalClassifyList" resultMap="appraisalMap">
+        SELECT id, type_name
+        FROM ap_appraisal_type
+        WHERE ap_show = 'yes'
+        ORDER BY sort  DESC
+    </select>
+
+</mapper>

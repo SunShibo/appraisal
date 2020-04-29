@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.UserDao">
+
+    <!--通过手机号号查询用户-->
+    <select id="getUserByPhone" parameterType="java.lang.String" resultType="com.wisewin.api.entity.bo.UserBO">
+        select * from ap_user where phone = #{phone}
+    </select>
+
+    <!--添加用户信息-->
+    <insert id="addUserBo" parameterType="com.wisewin.api.entity.bo.UserBO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ap_user
+        <set>
+            <if test="name!=null and name!=''">
+                `name`=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                `phone`=#{phone},
+            </if>
+            <if test="headUrl!=null and headUrl!=''">
+                `head_url`=#{headUrl},
+            </if>
+            <if test="integral!=null and integral!=''">
+                `integral`=#{integral},
+            </if>
+            <if test="money!=null and money!=''">
+                `money`=#{money},
+            </if>
+            <if test="qqOpenid!=null and qqOpenid!=''">
+                `qq_openid`=#{qqOpenid},
+            </if>
+            <if test="wxOpenid!=null and wxOpenid!=''">
+                `wx_openid`=#{wxOpenid},
+            </if>
+            <if test="status!=null and status!=''">
+                `status`=#{status},
+            </if>
+            <if test="registeredChannels!=null and registeredChannels!=''">
+                `registered_channels`=#{registeredChannels},
+            </if>
+            <if test="idNumber!=null and idNumber!=''">
+                `id_number`=#{idNumber},
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                `birthday`=#{birthday},
+            </if>
+            <if test="email!=null and email!=''">
+                `email`=#{email},
+            </if>
+            <if test="sex!=null and sex!=''">
+                `sex`=#{sex},
+            </if>
+            create_time=now(),
+            update_time=now()
+        </set>
+     </insert>
+
+    <!--修改用户信息-->
+    <update id="updUserBo" parameterType="com.wisewin.api.entity.bo.UserBO">
+        update  ap_user
+        <set>
+            <if test="name!=null and name!=''">
+                `name`=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                `phone`=#{phone},
+            </if>
+            <if test="headUrl!=null and headUrl!=''">
+                `head_url`=#{headUrl},
+            </if>
+            <if test="integral!=null and integral!=''">
+                `integral`=#{integral},
+            </if>
+            <if test="money!=null and money!=''">
+                `money`=#{money},
+            </if>
+            <if test="qqOpenid!=null and qqOpenid!=''">
+                `qq_openid`=#{qqOpenid},
+            </if>
+            <if test="wxOpenid!=null and wxOpenid!=''">
+                `wx_openid`=#{wxOpenid},
+            </if>
+            <if test="status!=null and status!=''">
+                `status`=#{status},
+            </if>
+            <if test="registeredChannels!=null and registeredChannels!=''">
+                `registered_channels`=#{registeredChannels},
+            </if>
+            <if test="idNumber!=null and idNumber!=''">
+                `id_number`=#{idNumber},
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                `birthday`=#{birthday},
+            </if>
+            <if test="email!=null and email!=''">
+                `email`=#{email},
+            </if>
+            <if test="name!=null and name!=''">
+                `name`=#{name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                `sex`=#{sex},
+            </if>
+            <if test="watermark != null and watermark != ''">
+                watermark = #{watermark},
+            </if>
+            <if test="watermarkState != null and watermarkState != ''">
+                watermark_state = #{watermarkState},
+            </if>
+            <if test="zfbUserId != null and zfbUserId != ''">
+                zfb_user_id = #{zfbUserId},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <!--修改用户余额-->
+    <update id="updUserMoney" parameterType="com.wisewin.api.entity.bo.UserBO">
+        update  ap_user
+        <set>
+            <if test="money!=null and money!=''">
+                `money`=`money`+#{money},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <!--通过qq号或者微信查询手机号-->
+    <select id="getPhoneByOpenId" resultType="com.wisewin.api.entity.bo.UserBO">
+        select * from ap_user
+        <where>
+            <if test="status=='qq'">
+                and qq_openid=#{openid}
+            </if>
+            <if test="status=='wx'">
+                and wx_openid=#{openid}
+            </if>
+        </where>
+    </select>
+
+    <!--解除绑定-->
+    <update id="removeOpenId">
+        update ap_user
+        <set>
+            <if test="type=='qq'">
+                qq_openid=null,
+            </if>
+            <if test="type=='wx'">
+                wx_openid=null,
+            </if>
+            <if test="type == 'zfb'">
+                zfb_user_id=null,
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="getById" resultType="com.wisewin.api.entity.bo.UserBO">
+        select * from ap_user where id = #{id}
+    </select>
+
+    <update id="updateUserIntegral">
+        UPDATE
+  appraisal.ap_user
+    SET
+
+      integral = integral + 1
+    WHERE id = #{id} ;
+
+
+    </update>
+
+    <update id="updateUserPayPassword">
+    UPDATE
+    appraisal.ap_user
+    SET
+      pay_password = #{payPassword}
+    WHERE id = #{id} ;
+    </update>
+
+
+    <update id="bindingAliPay">
+        UPDATE
+      appraisal.ap_user
+        SET
+          zfb_user_id = #{aliUserId}
+        WHERE id = #{id} ;
+
+    </update>
+
+
+    <update id="deductTheBalance">
+                UPDATE
+          appraisal.ap_user
+        SET
+          money = money - #{money}
+        WHERE id = #{id} ;
+
+
+    </update>
+
+
+    <update id="setwatermark">
+        UPDATE
+          appraisal.ap_user
+        SET
+          watermark = #{watermark},
+          watermark_state = #{watermarkState}
+        WHERE id = #{id} ;
+    </update>
+
+</mapper>

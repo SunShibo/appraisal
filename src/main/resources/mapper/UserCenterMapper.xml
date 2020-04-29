@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.UserCenterDao">
+
+    <select id="getEnshrineAppraisal" resultType="com.wisewin.api.entity.bo.AppraisalBo" >
+        SELECT app.*,`type`.`name` as typeName,en.id as enshrineId FROM ap_appraisal AS app
+        INNER JOIN `ap_appraisal_type_info` AS `type` ON app.`appraisal_type_id`=`type`.`id`
+        INNER JOIN `ap_enshrine` AS en ON app.`id`=en.`appraisal_id`
+        WHERE en.user_id=#{userId}
+        order by en.create_time desc
+        LIMIT #{pageOffset},#{pageSize}
+    </select>
+
+    <delete id="delEnshrine">
+        DELETE FROM `ap_enshrine` WHERE user_id=#{userId} and appraisal_id=#{appraisalId}
+    </delete>
+
+    <select id="getEnshrineByUserIdAndAppraisalId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `ap_enshrine` WHERE user_id=#{userId} and appraisal_id=#{appraisalId}
+    </select>
+
+    <insert id="addEnshrine" parameterType="com.wisewin.api.entity.bo.EnshrineBO">
+        INSERT INTO `ap_enshrine`
+        (user_id,appraisal_id,create_time)
+        VALUES
+        (#{userId},#{appraisalId},now())
+    </insert>
+
+    <select id="getMyAccount" resultType="com.wisewin.api.entity.bo.OrderItemBO">
+        SELECT `order`.*,`app`.title,app.id as appraisalId,user.`name`,rewardUser.name as rewardName,type.`type_name`
+        FROM `ap_order_item` AS `order`
+        INNER JOIN `ap_user` AS `user` ON `order`.`user_id`=`user`.`id`
+        INNER JOIN `ap_appraisal` AS `app` ON app.`id`=`order`.`appraisal_id`
+        INNER JOIN `ap_appraisal_type` AS `type` ON `type`.`id`=app.`appraisal_type_id`
+        INNER JOIN `ap_user` AS `rewardUser` ON `order`.`reward_id`=rewardUser.`id`
+        WHERE (`order`.reward_id=#{userId} or `order`.user_id=#{userId}) and `order`.state='10'
+        order by `order`.create_time desc
+        limit #{pageOffset},#{pageSize}
+    </select>
+
+    <select id="getPaymentMoney" resultType="java.math.BigDecimal">
+        SELECT sum(payment) FROM `ap_order_item`
+        WHERE user_id=#{userId} and state='10'
+    </select>
+
+    <select id="getMyMoney" resultType="java.math.BigDecimal">
+        SELECT money FROM `ap_user`
+        WHERE id=#{userId}
+    </select>
+
+    <select id="getRewardAmount" resultType="java.math.BigDecimal">
+        SELECT sum(reward_amount) FROM `ap_order_item`
+        WHERE reward_id=#{userId} and state='10'
+    </select>
+
+
+
+
+</mapper>

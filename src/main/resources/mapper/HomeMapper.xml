@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 首页 -->
+<mapper namespace="com.wisewin.api.dao.HomeDao">
+
+    <select id="getBanner" resultType="com.wisewin.api.entity.bo.BannerBO">
+        SELECT * FROM `ap_banner` WHERE state='putaway' order by sort desc
+    </select>
+
+    <select id="getAppraisalBoCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `ap_appraisal` WHERE user_id=#{userId} and status='yes'
+    </select>
+
+    <select id="getCommentBoCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `ap_comment` WHERE user_id=#{userId} group by appraisal_id
+    </select>
+
+    <select id="getAppraisalBoList" resultType="com.wisewin.api.entity.bo.AppraisalBo">
+        SELECT * FROM `ap_appraisal` WHERE `status`='yes' AND ap_case='yes'
+        limit #{pageOffset},#{pageSize}
+    </select>
+
+</mapper>

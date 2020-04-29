@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.FeedBackDAO">
+
+    <insert id="insertFeedBack" >
+        INSERT INTO appraisal.ap_feedback (
+          user_id,
+          describc,
+          ap_status,
+          create_time,
+          update_time
+        )
+        VALUES
+          (
+            #{userId},
+            #{describc},
+            1,
+            now(),
+            now()
+          ) ;
+    </insert>
+
+
+</mapper>

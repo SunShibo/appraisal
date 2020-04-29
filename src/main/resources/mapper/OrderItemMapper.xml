@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 【用户】 -->
+<mapper namespace="com.wisewin.api.dao.OrderItemDAO">
+    
+    <insert id="insetOrderItem">
+        INSERT INTO appraisal.ap_order_item (
+          order_number,
+          user_id,
+          payment,
+          state,
+          reward_id,
+          comment_id,
+          appraisal_id,
+          pay_platform,
+          create_time,
+          update_time
+        )
+        VALUES
+          (
+            #{map.orderNumber},
+            #{map.userId},
+            #{map.payment},
+            #{map.state},
+            #{map.rewardId},
+            #{map.commentId},
+            #{map.appraisalId},
+            #{map.payPlatform},
+            now(),
+            now()
+          ) ;
+    </insert>
+
+
+  <select id="selectOrderItemBy" resultType="com.wisewin.api.entity.bo.OrderItemBO2">
+    select * from ap_order_item where order_number = #{orderNumber}
+  </select>
+
+  <update id="updateOrderItem" parameterType="com.wisewin.api.entity.bo.OrderItemBO2">
+    UPDATE appraisal.ap_order_item 
+	SET
+	
+	<if test="userId != null and userId != ''">
+      user_id = #{userId} ,
+    </if>
+	<if test="payment != null and payment != ''">
+      payment = #{payment} ,
+    </if>
+	<if test="state != null and state != ''">
+      state = #{state} ,
+    </if>
+	<if test="rewardId != null and rewardId != ''">
+      reward_id = #{rewardId} ,
+    </if>
+	<if test="rewardAmount != null and rewardAmount!=''">
+      reward_amount = #{rewardAmount} ,
+    </if>
+	<if test="commentId != null and commentId != ''">
+      comment_id = #{commentId} ,
+    </if>
+	<if test="appraisalId != null and appraisalId != ''">
+      appraisal_id = #{appraisalId} ,
+    </if>
+	<if test="payPlatform != null and payPlatform != ''">
+      pay_platform = #{payPlatform} ,
+    </if>
+	<if test="platformNumber != null and platformNumber != ''">
+      platform_number = #{platformNumber} ,
+    </if>
+    <if test="closeTime ！= null and  closeTime ！= ''">
+      close_time = now()
+    </if>
+
+	WHERE
+	order_number = #{orderNumber} ;
+  </update>
+
+
+  <update id="updateUserMoney">
+  UPDATE
+    appraisal.ap_user
+  SET
+    money = money+#{money},
+    update_time = NOW()
+
+  WHERE id = #{userId} ;
+
+  </update>
+
+
+  <insert id="insertBalanceOrder">
+    INSERT INTO appraisal.ap_order_item (
+  order_number,
+  user_id,
+  payment,
+  state,
+  reward_id,
+  reward_amount,
+  comment_id,
+  appraisal_id,
+  pay_platform,
+  platform_number,
+  payment_time,
+  close_time,
+  create_time,
+  update_time
+)
+VALUES
+  (
+  #{map.orderNumber},
+  #{map.userId},
+  #{map.payment},
+  #{map.state},
+  #{map.rewardId},
+  #{map.rewardAmount},
+  #{map.commentId},
+  #{map.appraisalId},
+  #{map.payPlatform},
+  #{map.platformNumber},
+  now(),
+  now(),
+  now(),
+  now()
+
+  ) ;
+
+
+  </insert>
+
+  <update id="saveUserMoney">
+     UPDATE
+    appraisal.ap_user
+  SET
+    money = money-#{money},
+    update_time = NOW()
+
+  WHERE id = #{userId} ;
+  </update>
+
+  <update id="updateOrderItemStatus">
+
+    UPDATE
+      appraisal.ap_order_item
+    SET
+      state = 10,
+      reward_amount = #{rewardAmount},
+      platform_number = #{platformNumber},
+      close_time = now()
+    WHERE id = #{id} ;
+
+
+  </update>
+
+</mapper>

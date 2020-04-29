@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.wisewin.api.dao.OrderDao">
+
+    <insert id="addOrderDao" parameterType="com.wisewin.api.entity.bo.OrderItemBO">
+        insert into `ap_order_item`
+        <set>
+            <if test="orderNumber!=null and orderNumber!=''">
+                order_number=#{orderNumber},
+            </if>
+            <if test="userId!=null and userId!=''">
+                user_id=#{userId},
+            </if>
+            <if test="payment!=null and payment!=''">
+                payment=#{payment},
+            </if>
+            <if test="state!=null and state!=''">
+                state=#{state},
+            </if>
+            <if test="rewardId!=null and rewardId!=''">
+                reward_id=#{rewardId},
+            </if>
+            <if test="rewardAmount!=null and rewardAmount!=''">
+                reward_amount=#{rewardAmount},
+            </if>
+            <if test="commentId!=null and commentId!=''">
+                comment_id=#{commentId},
+            </if>
+            <if test="appraisalId!=null and appraisalId!=''">
+                appraisal_id=#{appraisalId},
+            </if>
+            <if test="payPlatform!=null and payPlatform!=''">
+                pay_platform=#{payPlatform},
+            </if>
+            <if test="platformNumber!=null and platformNumber!=''">
+                platform_number=#{platformNumber},
+            </if>
+            create_time=now(),
+            update_time=now()
+        </set>
+    </insert>
+
+    <update id="updOrderDao" parameterType="com.wisewin.api.entity.bo.OrderItemBO">
+        update `ap_order_item`
+        <set>
+            <if test="orderNumber!=null and orderNumber!=''">
+                order_number=#{orderNumber},
+            </if>
+            <if test="userId!=null and userId!=''">
+                user_id=#{userId},
+            </if>
+            <if test="payment!=null and payment!=''">
+                payment=#{payment},
+            </if>
+            <if test="state!=null and state!=''">
+                state=#{state},
+            </if>
+            <if test="rewardId!=null and rewardId!=''">
+                reward_id=#{rewardId},
+            </if>
+            <if test="rewardAmount!=null and rewardAmount!=''">
+                reward_amount=#{rewardAmount},
+            </if>
+            <if test="commentId!=null and commentId!=''">
+                comment_id=#{commentId},
+            </if>
+            <if test="appraisalId!=null and appraisalId!=''">
+                appraisal_id=#{appraisalId},
+            </if>
+            <if test="payPlatform!=null and payPlatform!=''">
+                pay_platform=#{payPlatform},
+            </if>
+            <if test="platformNumber!=null and platformNumber!=''">
+                platform_number=#{platformNumber},
+            </if>
+            <if test="paymentTime!=null and paymentTime!=''">
+                payment_time=now(),
+            </if>
+            <if test="closeTime!=null and closeTime!=''">
+                close_time=#{closeTime},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="getOrderByOrderNumber" resultType="com.wisewin.api.entity.bo.OrderItemBO" parameterType="java.lang.String">
+        select * from ap_order_item where order_number=#{orderNumber}
+    </select>
+</mapper>
